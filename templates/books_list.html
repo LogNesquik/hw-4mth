@@ -1,0 +1,7 @@
+{% for i in book_all %}
+
+<img src="{{ i.cover_image.url }}" alt="" width="300" height="400">
+<h1>{{ i.title_books }}</h1>
+<p> <a href="/book_list/{{ i.id }}">Подробнее</a> </p>
+
+{% endfor %}
