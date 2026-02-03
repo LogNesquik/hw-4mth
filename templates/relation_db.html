@@ -1,0 +1,21 @@
+<h1>Список турниров</h1>
+
+{% for i in choice_tour %}
+
+<h5>{{ i.name }}</h5>
+
+<h1>Категории</h1>
+    {% for j in i.tag_category.all %}
+    <h3>{{ j.type_category }}</h3>
+    {% endfor %}
+
+<h1>Комменты</h1>
+{% for k in i.stars.all %}
+
+<h3>{{ k.star }}</h3>
+<h3>{{ k.comments_stars }}</h3>
+<h3>{{ k.created_at }}</h3>
+    {% endfor %}
+
+
+{% endfor %}
