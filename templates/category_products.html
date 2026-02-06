@@ -1,0 +1,10 @@
+<h1>Категория: {{ category.name }}</h1>
+<p>Товаров: {{ products.count }}</p>
+
+{% for product in products %}
+    {{ forloop.counter }}. {{ product.name }} - {{ product.price }}<br>
+{% empty %}
+    <p>В этой категории пока нет товаров</p>
+{% endfor %}
+
+<a href="{% url 'category_list' %}">← Назад к списку категорий</a>

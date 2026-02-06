@@ -1,0 +1,4 @@
+<h1>Продукты - Категории</h1>
+{% for product in products %}
+    <h1>{{ product.name }} - {{ product.choice_tag.name }}</h1>
+{% endfor %}

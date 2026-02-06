@@ -1,0 +1,12 @@
+<h1>Все категории</h1>
+
+<ul>
+{% for category in categories %}
+    <li>
+        <a href="{% url 'category_products' category.id %}">
+            {{ category.name }} 
+            ({{ category.tags.count }} товаров)
+        </a>
+    </li>
+{% endfor %}
+</ul>
