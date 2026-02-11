@@ -7,6 +7,10 @@
 <p> <a href="/book_list/{{ i.id }}">Подробнее</a> </p>
 <p> <a href="/book_list/{{ i.id }}/edit">Редактировать</a> </p>
 <p> <a href="/book_list/{{ i.id }}/delete">Удалить</a> </p>
-
 {% endfor %}
+
+<form action="/login/", method="post">
+    {% csrf_token %}
+    <button type="submit">Выйти из аккаунта</button>
+
 </center>

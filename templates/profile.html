@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Профиль</title>
+</head>
+<body>
+    <center>
+        <h1>Здравствуйте, {{ user.username }}!</h1>
+        
+        <p>Имя: {{ user.first_name }}</p>
+        <p>Фамилия: {{ user.last_name }}</p>
+        <p>Email: {{ user.email }}</p>        
+        <br><br>
+        <a href="/logout/">Выйти</a>
+    </center>
+</body>
+</html>
