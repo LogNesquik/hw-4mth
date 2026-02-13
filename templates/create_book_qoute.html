@@ -1,14 +1,9 @@
 <center>
     <h1>Добавить книгу</h1>
 
-    <form action="/create_book_qoute/" method="post" enctype="multipart/form-data">
-
+    <form action="{% url 'book_create' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
         {{ form.as_p }}
-
         <button type="submit">Добавить</button>
-
-
     </form>
 </center>

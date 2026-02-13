@@ -1,16 +1,58 @@
 <center>
+<button><a href="{% url 'book_create' %}">Добавить</a></button>
+
+<form action="{% url 'search' %}" method="GET">
+    <input type="text" name="s" placeholder="Найти книгу">
+    <button type="submit">Найти</button>
+</form>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if book_all.has_previous %}
+            <a href="{% url 'book_list' %}?page=1">&laquo; Первая</a>
+            <a href="{% url 'book_list' %}?page={{ book_all.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ book_all.number }} из {{ book_all.paginator.num_pages }}.
+        </span>
+
+        {% if book_all.has_next %}
+            <a href="{% url 'book_list' %}?page={{ book_all.next_page_number }}">Следующая</a>
+            <a href="{% url 'book_list' %}?page={{ book_all.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
 {% for i in book_all %}
-<button><a href="/create_book_qoute">Добавить</a></button>
 <br><br>
 <img src="{{ i.cover_image.url }}" alt="" width="300" height="400">
 <h1>{{ i.title_books }}</h1>
-<p> <a href="/book_list/{{ i.id }}">Подробнее</a> </p>
-<p> <a href="/book_list/{{ i.id }}/edit">Редактировать</a> </p>
-<p> <a href="/book_list/{{ i.id }}/delete">Удалить</a> </p>
+<p><a href="{% url 'book_detail' id=i.id %}">Подробнее</a></p>
+<p><a href="{% url 'book_edit' id=i.id %}">Редактировать</a></p>
+<p><a href="{% url 'book_delete' id=i.id %}">Удалить</a></p>
 {% endfor %}
 
-<form action="/login/", method="post">
+<div class="pagination">
+    <span class="step-links">
+        {% if book_all.has_previous %}
+            <a href="{% url 'book_list' %}?page=1">&laquo; Первая</a>
+            <a href="{% url 'book_list' %}?page={{ book_all.previous_page_number }}">Предыдущая</a>
+        {% endif %}
+
+        <span class="current">
+            Страница {{ book_all.number }} из {{ book_all.paginator.num_pages }}.
+        </span>
+
+        {% if book_all.has_next %}
+            <a href="{% url 'book_list' %}?page={{ book_all.next_page_number }}">Следующая</a>
+            <a href="{% url 'book_list' %}?page={{ book_all.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<form action="/logout/" method="post">
     {% csrf_token %}
     <button type="submit">Выйти из аккаунта</button>
-
+</form>
 </center>

@@ -1,14 +1,9 @@
 <center>
     <h1>Изменить книгу</h1>
     
-    <form  method="post" enctype="multipart/form-data">
-
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
         {{ form.as_p }}
-
         <button type="submit">Изменить</button>
-
-
     </form>
 </center>
