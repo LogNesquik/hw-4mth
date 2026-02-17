@@ -6,50 +6,61 @@
     <button type="submit">Найти</button>
 </form>
 
+<!-- Пагинация вверху (используем page_obj) -->
+{% if is_paginated %}
 <div class="pagination">
     <span class="step-links">
-        {% if book_all.has_previous %}
-            <a href="{% url 'book_list' %}?page=1">&laquo; Первая</a>
-            <a href="{% url 'book_list' %}?page={{ book_all.previous_page_number }}">Предыдущая</a>
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
         {% endif %}
 
         <span class="current">
-            Страница {{ book_all.number }} из {{ book_all.paginator.num_pages }}.
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
         </span>
 
-        {% if book_all.has_next %}
-            <a href="{% url 'book_list' %}?page={{ book_all.next_page_number }}">Следующая</a>
-            <a href="{% url 'book_list' %}?page={{ book_all.paginator.num_pages }}">Последняя &raquo;</a>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
         {% endif %}
     </span>
 </div>
+{% endif %}
 
+<!-- Список книг (используем book_all) -->
 {% for i in book_all %}
 <br><br>
+{% if i.cover_image %}
 <img src="{{ i.cover_image.url }}" alt="" width="300" height="400">
+{% endif %}
 <h1>{{ i.title_books }}</h1>
 <p><a href="{% url 'book_detail' id=i.id %}">Подробнее</a></p>
 <p><a href="{% url 'book_edit' id=i.id %}">Редактировать</a></p>
 <p><a href="{% url 'book_delete' id=i.id %}">Удалить</a></p>
+{% empty %}
+<p>Книги не найдены</p>
 {% endfor %}
 
+<!-- Пагинация внизу (используем page_obj) -->
+{% if is_paginated %}
 <div class="pagination">
     <span class="step-links">
-        {% if book_all.has_previous %}
-            <a href="{% url 'book_list' %}?page=1">&laquo; Первая</a>
-            <a href="{% url 'book_list' %}?page={{ book_all.previous_page_number }}">Предыдущая</a>
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
         {% endif %}
 
         <span class="current">
-            Страница {{ book_all.number }} из {{ book_all.paginator.num_pages }}.
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
         </span>
 
-        {% if book_all.has_next %}
-            <a href="{% url 'book_list' %}?page={{ book_all.next_page_number }}">Следующая</a>
-            <a href="{% url 'book_list' %}?page={{ book_all.paginator.num_pages }}">Последняя &raquo;</a>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
         {% endif %}
     </span>
 </div>
+{% endif %}
 
 <form action="/logout/" method="post">
     {% csrf_token %}

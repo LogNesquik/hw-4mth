@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from . import models
+from django.views import generic
 
-def relation_db(request):
-    if request.method == 'GET':
-        choice_tour = models.Person.objects.all()
-    return render(
-        request,
-        'relation_db.html',
-        {
-            'choice_tour': choice_tour
-        }
-    )
-# Create your views here.
+
+class RelationDBView(generic.TemplateView):
+    template_name = 'relation_db.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['choice_tour'] = models.Person.objects.all()
+        return context

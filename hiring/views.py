@@ -4,55 +4,30 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from . forms import CustomUserForm, LoginFormWithCaptcha
 from hiring.forms import CustomUserForm
+from django.views import generic
+from django.urls import reverse
+from django.contrib.auth.views import LoginView, LogoutView
 
-def register_view(request):
-    if request.method == "POST":
-        form = CustomUserForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('/login/')
-    else:
-        form = CustomUserForm()
+class RegisterView(generic.CreateView):
+    template_name = 'register.html'
+    form_class = CustomUserForm
+    success_url = '/login/'
 
-    return render(
-        request,
-        'register.html',
-        {
-            'form': form
-        }
-    )
-
-def login_view(request):
-    if request.method == "POST":
-        form = LoginFormWithCaptcha(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user:
-
-                login(request, user)
-                return redirect('/profile/')
-    else:
-        form = LoginFormWithCaptcha()
-
-    return render(
-        request,
-        'login.html',
-        {
-            'form': form
-        }
-    )
-def profile_view(request):
-    return render(
-        request, 
-        'profile.html', 
-        {
-            'user': request.user
-        }
-    )
+class AuthLoginView(LoginView):
+    template_name = 'login.html'
+    authentication_form = LoginFormWithCaptcha
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('/login/')
+    def get_success_url(self):
+        return reverse('profile')
+
+class ProfileView(generic.TemplateView):
+    template_name = 'profile.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
+class AuthLogoutView(LogoutView):
+    next_page = '/login/'
